@@ -1,0 +1,24 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('checkout') {
+            steps {
+                bat ''' 
+                    cd /d "D:/Assignments/7th semester/scd lab/lab10-11"
+                    git pull origin master
+                '''
+            }
+        }
+        stage('build-docker-image') {
+            steps {
+                bat 'docker build -t lab10frontendimage:latest .'
+            }
+        }
+        stage('run-docker-image') {
+            steps {
+                bat 'docker run --name lab10container -d -p 3000:3000 lab10frontendimage:latest'
+            }
+        }
+    }
+}
